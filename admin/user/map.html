@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    max-width: 800px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#indiaMap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.state-info {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: left;
+}
+
+.state-info h2 {
+    margin-bottom: 10px;
+}
+
+.state-info p {
+    font-size: 16px;
+}
+
+.map-object {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+svg path {
+    cursor: pointer;
+    transition: fill 0.3s;
+}
+
+svg path:hover {
+    fill: #00aaff;
+}
+
+    </style>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Wait until the SVG is fully loaded
+    const mapObject = document.getElementById('mapObject');
+    
+    mapObject.addEventListener('load', function () {
+        const svgDoc = mapObject.contentDocument;
+        const states = svgDoc.querySelectorAll('path');  // Assuming each state is a <path> in the SVG
+
+        states.forEach(state => {
+            state.addEventListener('click', function (e) {
+                const stateName = e.target.getAttribute('id');  // Assuming each state has a unique ID
+                showStateInfo(stateName);
+            });
+        });
+    });
+
+    // Function to show state information when clicked
+    function showStateInfo(stateName) {
+        const infoText = document.getElementById('infoText');
+        const stateInfo = getStateInfo(stateName);
+        infoText.innerHTML = stateInfo;
+    }
+
+    // Example function to fetch some details for each state (this can be extended)
+    function getStateInfo(stateName) {
+        const stateData = {
+            "Maharashtra": "Maharashtra is known for its rich culture and history, with Mumbai being the financial capital of India.",
+            "Delhi": "Delhi is the capital city of India, known for its historical landmarks such as the Red Fort and India Gate.",
+            "Uttar Pradesh": "Uttar Pradesh is known for its religious significance and the Taj Mahal in Agra.",
+            // Add more states and details here
+        };
+
+        return stateData[stateName] || "State information not available.";
+    }
+});
+
+        </script>
+    <div class="container">
+        <h1>All India Map</h1>
+        <p>Select a state to view information about it:</p>
+        
+        <!-- India Map SVG -->
+        <div id="indiaMap">
+            <object type="image/svg+xml" data="india_map.svg" id="mapObject" class="map-object"></object>
+        </div>
+        
+        <div id="stateInfo" class="state-info">
+            <h2>State Information</h2>
+            <p id="infoText">Click on a state to see more details.</p>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+   
